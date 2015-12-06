@@ -1,21 +1,24 @@
 import xml.etree.ElementTree as ET
-print('----UNIVERSAL TURING MACHINE----\n')
-x='yes'
-while(x=='y' or x=='yes'):
-    x='no'
-    op_no=int(input("Enter a number for operation to be performed:\n1. Reverse String\n2. Full Adder\n3. XOR Operation\n4. Other \n"))
+
+print('*****----UNIVERSAL TURING MACHINE----*****')
+x='Yes'
+while x in ('Y', 'Yes'):
+    x='No'
+    op_no=int(input("Choose a number from the following operations:\n 1. Reverse String \n 2. Full Adder \n 3. XOR Operation \n 4. Other Operation \n"))
     if(op_no==1):
         datafile='reverse.xml'
     if(op_no==2):
-        datafile='ADR.xml'
+        datafile='fulladder.xml'
     if(op_no==3):
-        datafile='turing_XOR.xml'
+        datafile='xor.xml'
     if(op_no==4):
         datafile=input('Enter name of file with .xml extension:\n')
-    
+
+    # Parsing input XML file using ElementTree's Object
     tree = ET.parse(datafile)
     root = tree.getroot()
 
+    #Reading XML file and saving it into variables
     for child in root:
         if child.tag == 'IOTape' :
             problem = child.get("format")
@@ -34,6 +37,8 @@ while(x=='y' or x=='yes'):
             right = child.get("right")
 
     tape = [input_str[k] for k in range(len(input_str))]
+    print("Input of Tape")
+    print(input_str)
     if (1):
         while (state != halt):
             if head in list(range(len(tape))):
@@ -43,9 +48,13 @@ while(x=='y' or x=='yes'):
                     state = delta_value[0]
                     tape[head] = delta_value[1]
                     print('HEAD-->',head)
-                    print(''.join(tape))                
+                    print(''.join(tape))
+
+                    #Move to Right if Right encountered in states
                     if right in delta_value[2]:
                         head+=1
+
+                    #Move to Left if Left encountered in states
                     elif left in delta_value[2]:
                         head-=1
             elif head <= list(range(len(tape)))[0]:
@@ -53,5 +62,5 @@ while(x=='y' or x=='yes'):
                 head = 0
             else :
                 tape.append(blank)
-    print("Do you wish to perform another operation: 'yes' or 'no'\n")
+    print("Do you wish to perform another operation: 'Yes' or 'No' \n")
     x = input()
